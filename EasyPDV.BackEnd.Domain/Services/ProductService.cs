@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 {
-    internal interface IProductRepository
+    internal class ProductService
     {
     }
 }
