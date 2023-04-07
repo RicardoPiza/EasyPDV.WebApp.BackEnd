@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
-    internal class CancelledSale : Sale
+    public class CancelledSale : Sale
     {
     }
 }

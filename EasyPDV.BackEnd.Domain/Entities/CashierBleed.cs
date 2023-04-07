@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
-    internal class CashierBleed : Cashier
+    public class CashierBleed : Cashier
     {
         public string Type { get; set; }
         public string Description { get; set; }

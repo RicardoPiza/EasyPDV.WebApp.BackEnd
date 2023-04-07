@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
-    internal class Cashier
+    public class Cashier
     {
-        public int ID { get; set; }
+        public Guid Id { get; set; }
         public string EventName { get; set; }
-        public int Number { get; set; }
-        public string Responsible { get; set; }
+        public int CashierNumber { get; set; }
+        public string CashierResponsible { get; set; }
         public DateTime Date { get; set; }
     }
 }

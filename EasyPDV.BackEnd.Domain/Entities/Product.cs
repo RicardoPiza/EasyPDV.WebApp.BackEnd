@@ -8,7 +8,7 @@ namespace EasyPDV.BackEnd.Domain.Entities
 {
     public class Product
     {
-        public int ID { get; set; }
+        public Guid Id { get; set; }
         public double Price { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
-    internal class CashierOpen : Cashier
+    public class CashierOpen : Cashier
     {
         public bool Status { get; set; }
         public double InitialBalance { get; set; }

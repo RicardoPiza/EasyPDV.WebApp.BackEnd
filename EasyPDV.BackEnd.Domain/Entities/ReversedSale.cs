@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
-    internal class ReversedSale : Sale
+    public class ReversedSale : Sale
     {
-        public string ProductChangeFrom { get; set; }
-        public string ProductChangeTo { get; set; }
+        
+        public Product ProductChangeFrom { get; set; }
+        public Product ProductChangeTo { get; set; }
         public double Balance { get; set; }
         public string ChangeType { get; set; }
     }
