@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
-    public class RegularSale :Sale
+    public class RegularSale 
     {
-        public List<Product> Products { get; set; }
-
-        public RegularSale()
-        {
-        }
+        public Guid RegularSaleId { get; set; }
+        public List<SoldProduct> SoldProducts { get; set; }
+        public double SalePrice { get; set; }
+        public DateTime SaleDate { get; set; } = DateTime.MaxValue;
+        public string PaymentMethod { get; set; }
     }
 }

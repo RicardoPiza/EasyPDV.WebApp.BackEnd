@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 {
-    internal class RegularSaleRepository : IRegularSaleRepository
+    public class RegularSaleRepository : IRegularSaleRepository
     {
         private readonly IConfiguration _configuration;
         private readonly PdvDbContext _pdvDbContext;

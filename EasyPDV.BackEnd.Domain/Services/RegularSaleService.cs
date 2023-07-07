@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 {
-    internal class RegularSaleService : IRegularSaleService
+    public class RegularSaleService : IRegularSaleService
     {
         private readonly IRegularSaleRepository _regularSaleRepository;
         public RegularSaleService(
@@ -18,8 +18,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 
         public async Task<RegularSale> PostRegularSale(RegularSale regularSale)
         {
-            regularSale.setPriceToString();
-            _regularSaleRepository
+            await _regularSaleRepository.Create(regularSale);
             return regularSale;
         }
     }

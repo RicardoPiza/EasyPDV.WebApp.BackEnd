@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
-    public class IndividualSale : Sale
+    public class IndividualSale
     {
-        public Product Product { get; set; }
+        public Guid IndividualSaleId { get; set; }
+        public double SalePrice { get; set; }
+        public DateTime SaleDate { get; set; } = DateTime.MaxValue;
+        public string PaymentMethod { get; set; }
+        public SoldProduct SoldProduct { get; set; }
         public IndividualSale()
         {
             

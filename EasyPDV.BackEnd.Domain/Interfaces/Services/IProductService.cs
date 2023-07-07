@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EasyPDV.BackEnd.Domain.Dtos;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,9 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 {
     public interface IProductService
     {
+        //Task<List<ProductDTO>> List(ProductDTO productDTO);
+        public byte[] ConvertIFormFileToByteArray(IFormFile file);
+        public IFormFile ConvertByteArrayToIFormFile(byte[] fileData, string fileName);
+
     }
 }

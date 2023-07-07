@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 {
-    internal class CancelledSaleRepository
+    public class CancelledSaleRepository: ICancelledSaleRepository
     {
+        public Guid CancelledSaleId { get; set; }
     }
 }

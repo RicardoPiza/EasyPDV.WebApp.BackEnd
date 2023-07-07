@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EasyPDV.BackEnd.Domain.Entities;
 
 namespace EasyPDV.BackEnd.Infra.Mappings
@@ -20,19 +15,19 @@ namespace EasyPDV.BackEnd.Infra.Mappings
                 builder.HasKey(x => x.Id);
                 builder.Property(x => x.Name).IsRequired();
                 builder.Property(x => x.Price).IsRequired();
+                builder.Property(x => x.Image).HasColumnType("varbinary(MAX)").HasConversion<byte[]>();
 
             }
         }
-        public class SaleMap : IEntityTypeConfiguration<Sale>
+        public class SoldProductMap : IEntityTypeConfiguration<SoldProduct>
         {
-            public void Configure(EntityTypeBuilder<Sale> builder)
+            public void Configure(EntityTypeBuilder<SoldProduct> builder)
             {
 
-                builder.ToTable("Sales");
-                builder.HasKey(x => x.Id);
-                builder.Property(x => x.SalePrice).IsRequired();
-                builder.Property(x => x.PaymentMethod).IsRequired();
-                builder.Property(x => x.SaleDate).IsRequired();
+                builder.ToTable("SoldProducts");
+                builder.HasKey(x => x.SoldProductId);
+                builder.Property(x => x.Name).IsRequired();
+                builder.Property(x => x.Price).IsRequired();
 
             }
         }
@@ -42,9 +37,11 @@ namespace EasyPDV.BackEnd.Infra.Mappings
             {
 
                 builder.ToTable("CancelledSales");
+                builder.HasKey(x => x.CancelledSaleId);
                 builder.Property(x => x.PaymentMethod).IsRequired();
                 builder.Property(x => x.SalePrice).IsRequired();
                 builder.Property(x => x.SaleDate).IsRequired();
+                builder.HasMany(x => x.CancelledSaleProducts);
 
             }
         }
@@ -54,10 +51,11 @@ namespace EasyPDV.BackEnd.Infra.Mappings
             {
                 
                 builder.ToTable("RegularSales");
+                builder.HasKey(x => x.RegularSaleId);
                 builder.Property(x => x.SalePrice);
                 builder.Property(x => x.SaleDate);
                 builder.Property(x => x.PaymentMethod);
-                builder.HasMany(x => x.Products);
+                builder.HasMany(x => x.SoldProducts);
 
             }
         }
@@ -65,13 +63,18 @@ namespace EasyPDV.BackEnd.Infra.Mappings
         {
             public void Configure(EntityTypeBuilder<ReversedSale> builder)
             {
-
+                
                 builder.ToTable("ReversedSales");
+                builder.HasKey(x => x.ReversedSaleId);
                 builder.Property(x => x.PaymentMethod);
                 builder.Property(x => x.SalePrice);
                 builder.Property(x => x.SaleDate);
-                builder.HasOne(x => x.ProductChangeFrom);
-                builder.HasOne(x => x.ProductChangeTo);
+                builder.HasOne(x => x.ProductChangeFrom)
+                    .WithMany()
+                    .OnDelete(DeleteBehavior.NoAction);
+                builder.HasOne(x => x.ProductChangeTo)
+                    .WithMany()
+                    .OnDelete(DeleteBehavior.NoAction);
 
             }
         }
@@ -81,10 +84,11 @@ namespace EasyPDV.BackEnd.Infra.Mappings
             {
 
                 builder.ToTable("IndividualSales");
+                builder.HasKey(x => x.IndividualSaleId);
                 builder.Property(x => x.PaymentMethod);
                 builder.Property(x => x.SalePrice);
                 builder.Property(x => x.SaleDate);
-                builder.HasOne(x => x.Product);
+                builder.HasOne(x => x.SoldProduct);
             }
         }
         public class CashierOpenMap : IEntityTypeConfiguration<CashierOpen>
