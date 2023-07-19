@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
+namespace EasyPDV.BackEnd.Domain.Dtos
 {
-    internal class CashierBleedRepository
+    public class PrepareSaleDTO
     {
+        public double TotalSalePrice{ get; set; }
     }
 }

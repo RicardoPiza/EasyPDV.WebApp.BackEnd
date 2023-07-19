@@ -4,11 +4,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 {
-    public class RegularSaleRepository : IRegularSaleRepository
+    public class SaleRepository : ISaleRepository
     {
         private readonly IConfiguration _configuration;
         private readonly PdvDbContext _pdvDbContext;
-        public RegularSaleRepository(
+        public SaleRepository(
             IConfiguration configuration,
             PdvDbContext pdvDbContext
             )
@@ -17,10 +17,10 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             _pdvDbContext = pdvDbContext;
         }
 
-        public async Task<RegularSale> Create(RegularSale sale)
+        public async Task<Sale> Create(Sale sale)
         {
             
-            var _sale = await _pdvDbContext.AddAsync( sale );
+            var _sale = await _pdvDbContext.AddAsync(sale);
             _pdvDbContext.SaveChanges();
             return sale;
         }

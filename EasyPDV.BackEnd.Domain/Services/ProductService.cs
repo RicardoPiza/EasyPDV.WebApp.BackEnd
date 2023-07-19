@@ -21,12 +21,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
         {
             configuration = _configuration;
         }
-        //public async Task<List<ProductDTO>> List(ProductDTO productDTO)
-        //{
-        //    var prod = productDTO.Parse(productDTO);
-        //    var _products = await _productRepository.List(prod);
-        //    return _products.Products.ToList();
-        //}
         public byte[] ConvertIFormFileToByteArray(IFormFile file)
         {
             using (var memoryStream = new MemoryStream())

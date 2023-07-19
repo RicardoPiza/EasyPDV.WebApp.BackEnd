@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
+namespace EasyPDV.BackEnd.Domain.Enums
 {
-    internal interface ICashierBleedService
+    public enum ECashierStatus
     {
+        Openned = 0,
+        Closed = 1,
+        Bleed =2
     }
 }

@@ -19,115 +19,32 @@ namespace EasyPDV.BackEnd.Infra.Mappings
 
             }
         }
-        public class SoldProductMap : IEntityTypeConfiguration<SoldProduct>
+        public class SaleMap : IEntityTypeConfiguration<Sale>
         {
-            public void Configure(EntityTypeBuilder<SoldProduct> builder)
-            {
-
-                builder.ToTable("SoldProducts");
-                builder.HasKey(x => x.SoldProductId);
-                builder.Property(x => x.Name).IsRequired();
-                builder.Property(x => x.Price).IsRequired();
-
-            }
-        }
-        public class CancelledSaleMap : IEntityTypeConfiguration<CancelledSale>
-        {
-            public void Configure(EntityTypeBuilder<CancelledSale> builder)
-            {
-
-                builder.ToTable("CancelledSales");
-                builder.HasKey(x => x.CancelledSaleId);
-                builder.Property(x => x.PaymentMethod).IsRequired();
-                builder.Property(x => x.SalePrice).IsRequired();
-                builder.Property(x => x.SaleDate).IsRequired();
-                builder.HasMany(x => x.CancelledSaleProducts);
-
-            }
-        }
-        public class RegularSaleMap : IEntityTypeConfiguration<RegularSale>
-        {
-            public void Configure(EntityTypeBuilder<RegularSale> builder)
+            public void Configure(EntityTypeBuilder<Sale> builder)
             {
                 
-                builder.ToTable("RegularSales");
-                builder.HasKey(x => x.RegularSaleId);
-                builder.Property(x => x.SalePrice);
-                builder.Property(x => x.SaleDate);
-                builder.Property(x => x.PaymentMethod);
-                builder.HasMany(x => x.SoldProducts);
-
-            }
-        }
-        public class ReversedSaleMap : IEntityTypeConfiguration<ReversedSale>
-        {
-            public void Configure(EntityTypeBuilder<ReversedSale> builder)
-            {
-                
-                builder.ToTable("ReversedSales");
-                builder.HasKey(x => x.ReversedSaleId);
-                builder.Property(x => x.PaymentMethod);
-                builder.Property(x => x.SalePrice);
-                builder.Property(x => x.SaleDate);
-                builder.HasOne(x => x.ProductChangeFrom)
-                    .WithMany()
-                    .OnDelete(DeleteBehavior.NoAction);
-                builder.HasOne(x => x.ProductChangeTo)
-                    .WithMany()
-                    .OnDelete(DeleteBehavior.NoAction);
-
-            }
-        }
-        public class IndividualSaleMap : IEntityTypeConfiguration<IndividualSale>
-        {
-            public void Configure(EntityTypeBuilder<IndividualSale> builder)
-            {
-
-                builder.ToTable("IndividualSales");
-                builder.HasKey(x => x.IndividualSaleId);
-                builder.Property(x => x.PaymentMethod);
-                builder.Property(x => x.SalePrice);
-                builder.Property(x => x.SaleDate);
-                builder.HasOne(x => x.SoldProduct);
-            }
-        }
-        public class CashierOpenMap : IEntityTypeConfiguration<CashierOpen>
-        {
-            public void Configure(EntityTypeBuilder<CashierOpen> builder)
-            {
-
-                builder.ToTable("CashierOpen");
-                builder.Property(x => x.Status);
-                builder.Property(x => x.EventName);
-                builder.Property(x => x.CashierResponsible);
-                builder.Property(x => x.CashierNumber);
-                builder.Property(x => x.InitialBalance);
-                builder.Property(x => x.Date);
-            }
-        }
-        public class CashierMap : IEntityTypeConfiguration<Cashier>
-        {
-            public void Configure(EntityTypeBuilder<Cashier> builder)
-            {
-
-                builder.ToTable("Cashier");
+                builder.ToTable("Sales");
                 builder.HasKey(x => x.Id);
-                builder.Property(x => x.CashierNumber);
-                builder.Property(x => x.EventName);
-                builder.Property(x => x.CashierResponsible);
-                builder.Property(x => x.Date);
+                builder.Property(x => x.SalePrice);
+                builder.Property(x => x.SaleDate);
+                builder.Property(x => x.PaymentMethod);
+                builder.HasMany(x => x.Products);
+
             }
         }
-        public class CashierBleedMap : IEntityTypeConfiguration<CashierBleed>
+        public class EventMap : IEntityTypeConfiguration<Event>
         {
-            public void Configure(EntityTypeBuilder<CashierBleed> builder)
+            public void Configure(EntityTypeBuilder<Event> builder)
             {
 
-                builder.ToTable("CashierBleed");
-                builder.HasKey(x => x.Value);
-                builder.Property(x => x.Type);
-                builder.Property(x => x.Description);
+                builder.ToTable("Events");
+                builder.HasKey(x => x.Id);
+                builder.HasMany(x => x.Sales);
+                builder.Property(x => x.CashierStatus);
+
             }
         }
+
     }
 }

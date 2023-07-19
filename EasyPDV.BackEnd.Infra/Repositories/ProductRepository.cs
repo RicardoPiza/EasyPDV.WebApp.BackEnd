@@ -37,9 +37,9 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
         public async Task<ProductDTO> Create(ProductDTO product)
         {
             var _productParse = product.Parse(product);
-            var _product = await _pdvDbContext.AddAsync(_productParse);
+            var _product = _pdvDbContext.Products.AddAsync(_productParse).Result.Entity;
             await _pdvDbContext.SaveChangesAsync();
-            return product;
+            return _product.Parse(_product);
 
         }
         public async Task<ProductDTO> Update(ProductDTO product)
@@ -54,8 +54,17 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
         }
         public async Task<ProductDTO> GetById(Guid id)
         {
-            var _product = await _pdvDbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
-            return _product!.Parse(_product);
+
+            try
+            {
+                var _product = await _pdvDbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+                return _product!.Parse(_product);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
         }
 
         public async Task<Product> Remove(Guid id)

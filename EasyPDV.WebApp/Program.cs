@@ -55,9 +55,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IRegularSaleService, RegularSaleService>();
-builder.Services.AddScoped<IRegularSaleRepository, RegularSaleRepository>();
-builder.Services.AddScoped<ICancelledSaleRepository, CancelledSaleRepository>();
+builder.Services.AddScoped<ISaleService, SaleService>();
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 var app = builder.Build();
 
