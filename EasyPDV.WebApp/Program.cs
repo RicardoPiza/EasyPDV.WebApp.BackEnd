@@ -1,5 +1,8 @@
 using EasyPDV.BackEnd.Domain.Interfaces.Repositories;
+using EasyPDV.BackEnd.Domain.Interfaces.Services;
+using EasyPDV.BackEnd.Domain.Services;
 using EasyPDV.BackEnd.Infra.Context;
+using EasyPDV.BackEnd.Infra.Repositories;
 using EasyPDV.WebApp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -57,6 +60,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IEventService, EventService>();
 
 var app = builder.Build();
 

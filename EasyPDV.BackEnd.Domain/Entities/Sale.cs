@@ -10,7 +10,7 @@ namespace EasyPDV.BackEnd.Domain.Entities
     public class Sale 
     {
         public Guid Id { get; set; }
-        public List<Product> Products { get; set; }
+        public List<SoldProduct> Products { get; set; }
         public double SalePrice { get; set; }
         public DateTime SaleDate { get; set; } = DateTime.Now;
         public string PaymentMethod { get; set; }

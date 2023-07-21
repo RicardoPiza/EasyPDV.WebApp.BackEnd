@@ -19,6 +19,18 @@ namespace EasyPDV.BackEnd.Infra.Mappings
 
             }
         }
+        public class SoldProductMap : IEntityTypeConfiguration<SoldProduct>
+        {
+            public void Configure(EntityTypeBuilder<SoldProduct> builder)
+            {
+
+                builder.ToTable("SoldProducts");
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Name).IsRequired();
+                builder.Property(x => x.Price).IsRequired();
+
+            }
+        }
         public class SaleMap : IEntityTypeConfiguration<Sale>
         {
             public void Configure(EntityTypeBuilder<Sale> builder)
