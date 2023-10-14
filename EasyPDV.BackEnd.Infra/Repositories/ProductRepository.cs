@@ -39,6 +39,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             var _productParse = product.Parse(product);
             var _product = _pdvDbContext.Products.AddAsync(_productParse).Result.Entity;
             await _pdvDbContext.SaveChangesAsync();
+            _pdvDbContext.ChangeTracker.Clear();
             return _product.Parse(_product);
 
         }
@@ -74,6 +75,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             {
                 _product = _pdvDbContext.Products.Remove(_product).Entity;
                 await _pdvDbContext.SaveChangesAsync();
+                _pdvDbContext.ChangeTracker.Clear();
             }
             return _product;
         }
@@ -108,6 +110,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
                 try
                 {
                     await _pdvDbContext.SaveChangesAsync();
+                    _pdvDbContext.ChangeTracker.Clear();
                     return new ImageSaveResult();
                 }
                 catch (Exception ex)

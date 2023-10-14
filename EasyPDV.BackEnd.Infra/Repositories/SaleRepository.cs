@@ -1,5 +1,6 @@
 ﻿using EasyPDV.BackEnd.Domain.Entities;
 using EasyPDV.BackEnd.Infra.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
@@ -22,6 +23,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             
             var _sale = await _pdvDbContext.AddAsync(sale);
             _pdvDbContext.SaveChanges();
+            _pdvDbContext.ChangeTracker.Clear();
             return sale;
         }
     }

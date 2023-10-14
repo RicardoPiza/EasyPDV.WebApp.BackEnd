@@ -41,7 +41,7 @@ namespace EasyPDV.BackEnd.Infra.Mappings
                 builder.Property(x => x.SalePrice);
                 builder.Property(x => x.SaleDate);
                 builder.Property(x => x.PaymentMethod);
-                builder.HasMany(x => x.Products);
+                builder.HasMany(x => x.SoldProducts);
 
             }
         }

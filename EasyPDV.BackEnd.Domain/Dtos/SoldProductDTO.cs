@@ -11,7 +11,8 @@ namespace EasyPDV.BackEnd.Domain.Dtos
         public int StockQuantity { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
-        public virtual int productQuantity { get; set; }
+        public int ProductQuantity { get; set; }
+        public virtual byte[] Image { get; set; }
 
         public SoldProductDTO() { }
         public SoldProduct Parse(SoldProductDTO productDTO)
@@ -24,6 +25,7 @@ namespace EasyPDV.BackEnd.Domain.Dtos
                 StockQuantity = productDTO.StockQuantity,
                 Status = productDTO.Status,
                 Description = productDTO.Description,
+                ProductQuantity = productDTO.ProductQuantity,
             };
         }
         public byte[] ConvertIFormFileToByteArray(IFormFile file)

@@ -1,5 +1,6 @@
 ﻿using EasyPDV.BackEnd.Domain.Dtos;
 using EasyPDV.BackEnd.Domain.Entities;
+using EasyPDV.BackEnd.Domain.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;

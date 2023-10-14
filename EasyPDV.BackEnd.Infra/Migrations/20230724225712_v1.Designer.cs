@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyPDV.BackEnd.Infra.Migrations
 {
     [DbContext(typeof(PdvDbContext))]
-    [Migration("20230719232159_v1")]
+    [Migration("20230724225712_v1")]
     partial class v1
     {
         /// <inheritdoc />
@@ -73,9 +73,6 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("SaleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -84,8 +81,6 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SaleId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -127,11 +122,45 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                     b.ToTable("Sales", (string)null);
                 });
 
-            modelBuilder.Entity("EasyPDV.BackEnd.Domain.Entities.Product", b =>
+            modelBuilder.Entity("EasyPDV.BackEnd.Domain.Entities.SoldProduct", b =>
                 {
-                    b.HasOne("EasyPDV.BackEnd.Domain.Entities.Sale", null)
-                        .WithMany("Products")
-                        .HasForeignKey("SaleId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("SaleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SaleId");
+
+                    b.ToTable("SoldProducts", (string)null);
                 });
 
             modelBuilder.Entity("EasyPDV.BackEnd.Domain.Entities.Sale", b =>
@@ -141,6 +170,13 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                         .HasForeignKey("EventId");
                 });
 
+            modelBuilder.Entity("EasyPDV.BackEnd.Domain.Entities.SoldProduct", b =>
+                {
+                    b.HasOne("EasyPDV.BackEnd.Domain.Entities.Sale", null)
+                        .WithMany("SoldProducts")
+                        .HasForeignKey("SaleId");
+                });
+
             modelBuilder.Entity("EasyPDV.BackEnd.Domain.Entities.Event", b =>
                 {
                     b.Navigation("Sales");
@@ -148,7 +184,7 @@ namespace EasyPDV.BackEnd.Infra.Migrations
 
             modelBuilder.Entity("EasyPDV.BackEnd.Domain.Entities.Sale", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("SoldProducts");
                 });
 #pragma warning restore 612, 618
         }

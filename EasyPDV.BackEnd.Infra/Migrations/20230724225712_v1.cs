@@ -28,6 +28,23 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StockQuantity = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(MAX)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sales",
                 columns: table => new
                 {
@@ -51,7 +68,7 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "SoldProducts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -60,28 +77,29 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                     StockQuantity = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<byte[]>(type: "varbinary(MAX)", nullable: false),
+                    ProductQuantity = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     SaleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_SoldProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Sales_SaleId",
+                        name: "FK_SoldProducts_Sales_SaleId",
                         column: x => x.SaleId,
                         principalTable: "Sales",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_SaleId",
-                table: "Products",
-                column: "SaleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Sales_EventId",
                 table: "Sales",
                 column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SoldProducts_SaleId",
+                table: "SoldProducts",
+                column: "SaleId");
         }
 
         /// <inheritdoc />
@@ -89,6 +107,9 @@ namespace EasyPDV.BackEnd.Infra.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "SoldProducts");
 
             migrationBuilder.DropTable(
                 name: "Sales");

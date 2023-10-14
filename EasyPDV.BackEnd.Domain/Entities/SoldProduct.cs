@@ -19,17 +19,17 @@ namespace EasyPDV.BackEnd.Domain.Entities
             Description = description;
         }
         public SoldProduct() { }
-        public SoldProductDTO Parse(Product productDTO)
+        public SoldProductDTO Parse(SoldProduct _product)
         {
-            var stream = new MemoryStream(productDTO.Image);
             return new SoldProductDTO()
             {
-                Id = productDTO.Id,
-                Price = productDTO.Price,
-                Name = productDTO.Name,
-                StockQuantity = productDTO.StockQuantity,
-                Status = productDTO.Status,
-                Description = productDTO.Description,
+                Id = _product.Id,
+                Price = _product.Price,
+                Name = _product.Name,
+                StockQuantity = _product.StockQuantity,
+                Status = _product.Status,
+                Description = _product.Description,
+                ProductQuantity = _product.ProductQuantity,
             };
         }
         public Guid Id { get; set; }
@@ -38,5 +38,7 @@ namespace EasyPDV.BackEnd.Domain.Entities
         public int StockQuantity { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
+        public int ProductQuantity {get;set;}
+        public virtual byte [] Image { get; set; }
     }
 }

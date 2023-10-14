@@ -43,12 +43,15 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("read:messages", policy => policy.Requirements.Add(new
     HasScopeRequirement("read:messages", domain)));
+    
 });
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Use the connection string to configure your database context or other services that need it
 
-builder.Services.AddDbContext<PdvDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<PdvDbContext>(options => {
+    options.UseSqlServer(connectionString);
+});
 ConfigurationManager configuration = builder.Configuration; // allows both to access and to set up the config
 IWebHostEnvironment environment = builder.Environment;
 // Add services to the container.

@@ -11,7 +11,7 @@ namespace EasyPDV.BackEnd.Domain.Dtos
     public class SaleDTO
     {
         public Guid Id { get; set; }
-        public List<SoldProductDTO> SoldProducts { get; set; }
+        public List<SoldProductDTO> SoldProducts { get; set; } = new List<SoldProductDTO>();
         public double SalePrice { get; set; }
         public DateTime SaleDate { get; set; } = DateTime.MaxValue;
         public string PaymentMethod { get; set; }
@@ -25,7 +25,7 @@ namespace EasyPDV.BackEnd.Domain.Dtos
                 SalePrice = saleDTO.SalePrice,
                 SaleDate = saleDTO.SaleDate,
                 PaymentMethod = saleDTO.PaymentMethod,
-                Products = saleDTO.SoldProducts.Select(x => x.Parse(x)).ToList()
+                SoldProducts = saleDTO.SoldProducts.Select(x => x.Parse(x)).ToList()
                 
             };
         }

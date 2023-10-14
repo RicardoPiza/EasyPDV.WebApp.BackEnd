@@ -25,7 +25,58 @@ namespace EasyPDV.WebApp.Controllers
         {
             try
             {
-                var _response = _eventService.StartEvent(eventDTO);
+                var _response = await _eventService.StartEvent(eventDTO);
+                return Ok(new
+                {
+                    success = true,
+                    data = _response
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("StopEvent")]
+        public async Task<IActionResult> StopEvent(EventDTO eventDTO)
+        {
+            try
+            {
+                var _response = await _eventService.StopEvent(eventDTO);
+                return Ok(new
+                {
+                    success = true,
+                    data = _response
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetEvent/{responsible}")]
+        public async Task<IActionResult> GetEvent(string responsible)
+        {
+            try
+            {
+                var _response = _eventService.GetEvent(responsible);
+                return Ok(new
+                {
+                    success = true,
+                    data = _response
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetEventResult/{id}")]
+        public async Task<IActionResult> GetEventResult(Guid id)
+        {
+            try
+            {
+                var _response =  await _eventService.GetEventResult(id);
                 return Ok(new
                 {
                     success = true,

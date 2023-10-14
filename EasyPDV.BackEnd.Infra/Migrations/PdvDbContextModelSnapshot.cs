@@ -44,6 +44,10 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Responsible")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Events", (string)null);
@@ -129,12 +133,19 @@ namespace EasyPDV.BackEnd.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int>("ProductQuantity")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("SaleId")
                         .HasColumnType("uniqueidentifier");
@@ -163,7 +174,7 @@ namespace EasyPDV.BackEnd.Infra.Migrations
             modelBuilder.Entity("EasyPDV.BackEnd.Domain.Entities.SoldProduct", b =>
                 {
                     b.HasOne("EasyPDV.BackEnd.Domain.Entities.Sale", null)
-                        .WithMany("Products")
+                        .WithMany("SoldProducts")
                         .HasForeignKey("SaleId");
                 });
 
@@ -174,7 +185,7 @@ namespace EasyPDV.BackEnd.Infra.Migrations
 
             modelBuilder.Entity("EasyPDV.BackEnd.Domain.Entities.Sale", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("SoldProducts");
                 });
 #pragma warning restore 612, 618
         }
