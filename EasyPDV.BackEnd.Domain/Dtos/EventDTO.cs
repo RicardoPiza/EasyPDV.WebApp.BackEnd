@@ -30,6 +30,7 @@ namespace EasyPDV.BackEnd.Domain.Dtos
                 Date= eventDTO.Date,
                 Duration = eventDTO.Duration,
                 Responsible = eventDTO.Responsible,
+
             };
         }
         public void AddSale(SaleDTO sale)

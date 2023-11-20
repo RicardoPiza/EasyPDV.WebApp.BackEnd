@@ -1,16 +1,29 @@
 ﻿using EasyPDV.BackEnd.Domain.Dtos;
+using EasyPDV.BackEnd.Domain.Entities.Notifications;
 using EasyPDV.BackEnd.Domain.Enums;
+using EasyPDV.BackEnd.Domain.Interfaces;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
     public class Event
     {
+        private INotificationContext _notificationContext;
+
+        public Event(
+
+            INotificationContext notificationContext
+
+            )
+        {
+            _notificationContext = notificationContext;
+        }
+        public Event() { }
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Responsible { get; set; }
         public ECashierStatus CashierStatus { get; set; }
         public Decimal Balance { get; set; }
-        public List<Sale> Sales{ get; set; } = new List<Sale>();
+        public List<Sale> Sales { get; set; } = new List<Sale>();
         public DateTime Date { get; set; }
         public double Duration { get; set; }
 
@@ -55,11 +68,13 @@ namespace EasyPDV.BackEnd.Domain.Entities
                 Responsible = Event.Responsible,
             };
         }
-        public Event() { }
 
         public void AddSale(Sale sale)
         {
-            Sales.Add(sale);
+            if (!string.IsNullOrEmpty(sale.PaymentMethod))
+            {
+                Sales.Add(sale);
+            }
         }
         public void SetSale()
         {

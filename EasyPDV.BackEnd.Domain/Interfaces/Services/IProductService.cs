@@ -1,4 +1,6 @@
 ﻿using EasyPDV.BackEnd.Domain.Dtos;
+using EasyPDV.BackEnd.Domain.Entities;
+using EasyPDV.BackEnd.Domain.Results;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,8 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
         //Task<List<ProductDTO>> List(ProductDTO productDTO);
         public byte[] ConvertIFormFileToByteArray(IFormFile file);
         public IFormFile ConvertByteArrayToIFormFile(byte[] fileData, string fileName);
+        public Task<Product> Add(ProductDTO productDTO);
+        Task<ImageSaveResult> SaveImage(byte[] productImage, Guid id);
 
     }
 }

@@ -10,6 +10,22 @@ namespace EasyPDV.BackEnd.Domain.Dtos
 {
     public class SaleDTO
     {
+        public SaleDTO(
+            Guid id,
+            List<SoldProductDTO> soldProductDTOs,
+            double salePrice,
+            DateTime saleDate,
+            string paymentMethod,
+            ESaleType saleType
+            ) {
+            Id = id;
+            SoldProducts = soldProductDTOs;
+            SalePrice = salePrice;
+            SaleDate = saleDate;
+            PaymentMethod = paymentMethod;
+            SaleType = saleType;
+        }
+        public SaleDTO() { }
         public Guid Id { get; set; }
         public List<SoldProductDTO> SoldProducts { get; set; } = new List<SoldProductDTO>();
         public double SalePrice { get; set; }
@@ -19,15 +35,14 @@ namespace EasyPDV.BackEnd.Domain.Dtos
 
         public Sale Parse(SaleDTO saleDTO)
         {
-            return new Sale()
-            {
-                Id = saleDTO.Id,
-                SalePrice = saleDTO.SalePrice,
-                SaleDate = saleDTO.SaleDate,
-                PaymentMethod = saleDTO.PaymentMethod,
-                SoldProducts = saleDTO.SoldProducts.Select(x => x.Parse(x)).ToList()
-                
-            };
+            return new Sale(
+                saleDTO.Id,
+                saleDTO.SoldProducts.Select(x => x.Parse(x)).ToList(),
+                saleDTO.SalePrice,
+                saleDTO.SaleDate,
+                saleDTO.PaymentMethod,
+                saleDTO.SaleType
+                );
         }
     }
 }

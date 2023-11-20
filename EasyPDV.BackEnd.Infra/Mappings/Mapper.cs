@@ -42,7 +42,6 @@ namespace EasyPDV.BackEnd.Infra.Mappings
                 builder.Property(x => x.SaleDate);
                 builder.Property(x => x.PaymentMethod);
                 builder.HasMany(x => x.SoldProducts);
-
             }
         }
         public class EventMap : IEntityTypeConfiguration<Event>

@@ -1,5 +1,6 @@
 ﻿using EasyPDV.BackEnd.Domain.Dtos;
 using EasyPDV.BackEnd.Domain.Entities;
+using EasyPDV.BackEnd.Domain.Entities.Notifications;
 using EasyPDV.BackEnd.Domain.Results;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,14 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
     public class SaleService : ISaleService
     {
         private readonly ISaleRepository _saleRepository;
+        private readonly INotificationContext _notificationContext;
+
         public SaleService(
-            ISaleRepository saleRepository
+            ISaleRepository saleRepository,
+            INotificationContext notificationContext
             ) {
             _saleRepository = saleRepository;
+            _notificationContext = notificationContext;
         }
 
         public async Task<Sale> PostSale(SaleDTO sale)
@@ -23,14 +28,29 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             await _saleRepository.Create(sale.Parse(sale));
             return sale.Parse(sale);
         }
-        public async Task<PrepareSaleDTO> PrepareSale(List<ProductDTO> sale)
+        public async Task<PrepareSaleDTO> PrepareSale(List<ProductDTO> productsToSell)
         {
             var productsTotal = new PrepareSaleDTO();
-            foreach (var soldItem in sale)
+            if (productsToSell.Any())
             {
-                productsTotal.TotalSalePrice += soldItem.Price * soldItem.productQuantity;
+                foreach (var soldItem in productsToSell)
+                {
+                    productsTotal.TotalSalePrice += soldItem.Price * soldItem.ProductQuantity;
+                }
+                return productsTotal;
             }
+            _notificationContext.AddNotification("Sales", "Nenhum produto selecionado");
+
             return productsTotal;
+        }
+
+        public async Task<SaleDTO> Validate(SaleDTO sale)
+        {
+            if (string.IsNullOrEmpty(sale.PaymentMethod))
+            {
+                _notificationContext.AddNotification("Pagamento", "Escolha um método de pagamento");
+            }
+            return sale;
         }
     }
 }

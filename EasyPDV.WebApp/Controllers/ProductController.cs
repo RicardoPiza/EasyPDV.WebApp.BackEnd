@@ -1,5 +1,7 @@
 ﻿using EasyPDV.BackEnd.Domain.Dtos;
 using EasyPDV.BackEnd.Domain.Entities;
+using EasyPDV.BackEnd.Domain.Entities.Notifications;
+using EasyPDV.BackEnd.Domain.Interfaces;
 using EasyPDV.BackEnd.Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,25 +17,37 @@ namespace EasyPDV.WebApp.Controllers
         private readonly IProductService _productService;
         private readonly IProductRepository _productRepository;
         private readonly IConfiguration _configuration;
+        private readonly INotificationContext _notificationContext;
 
         public ProductController(
             ILogger<ProductController> logger,
             IProductRepository productRepository,
             IProductService productService,
-            IConfiguration configuration
+            IConfiguration configuration,
+            INotificationContext notificationContext
             )
         {
             _logger = logger;
             _productService = productService;
             _productRepository = productRepository;
             _configuration = configuration;
+            _notificationContext = notificationContext;
         }
         [HttpPost("Add")]
         public IActionResult AddProduct(ProductDTO product)
         {
             try
             {
-                var _response = _productRepository.Create(product);
+                var _response = _productService.Add(product);
+
+                if (_response is null)
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        data = _notificationContext.Notifications().Select(x => x.Message).ToList()
+                    });
+                }
                 return Ok(new
                 {
                     success = true,
@@ -118,8 +132,9 @@ namespace EasyPDV.WebApp.Controllers
         {
             try
             {
-                
-                var _response = await _productRepository.SaveImage(Image, id);
+
+                var _image = _productService.ConvertIFormFileToByteArray(Image);
+                var _response = await _productService.SaveImage(_image, id);
                 return Ok(new
                 {
                     success = true,

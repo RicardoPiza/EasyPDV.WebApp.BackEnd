@@ -18,6 +18,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
         Task<Product> Remove(Guid id);
         Task<ProductDTO> GetById(Guid id);
         Task<ProductResult> List(ProductDTOList productList);
-        Task<ImageSaveResult> SaveImage(IFormFile productImage, Guid id);
+        Task<ImageSaveResult> SaveImage(byte[] productImage, Guid id);
     }
 }

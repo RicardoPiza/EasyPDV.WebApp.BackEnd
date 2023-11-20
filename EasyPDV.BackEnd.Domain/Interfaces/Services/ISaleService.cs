@@ -12,5 +12,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
     {
         Task<Sale> PostSale(SaleDTO sale);
         Task<PrepareSaleDTO> PrepareSale(List<ProductDTO> sale);
+        Task<SaleDTO> Validate(SaleDTO sale);
     }
 }

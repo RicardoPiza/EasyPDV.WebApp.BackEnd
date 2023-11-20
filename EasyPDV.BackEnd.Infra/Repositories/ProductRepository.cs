@@ -17,17 +17,14 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
     {
         private readonly IConfiguration _configuration;
         private readonly PdvDbContext _pdvDbContext;
-        private readonly IProductService _productService;
 
         public ProductRepository(
             IConfiguration configuration,
-            PdvDbContext pdvDbContext,
-            IProductService productService
+            PdvDbContext pdvDbContext
             )
         {
             _configuration = configuration;
             _pdvDbContext = pdvDbContext;
-            _productService = productService;
         }
         public async Task<List<Product>> ReadProduct()
         {
@@ -97,13 +94,13 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             return result;
         }
 
-        public async Task<ImageSaveResult> SaveImage(IFormFile productImage, Guid id)
+        public async Task<ImageSaveResult> SaveImage(byte[] productImage, Guid id)
             {
             var product = await _pdvDbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
 
             if (product != null)
             {
-                product.Image = _productService.ConvertIFormFileToByteArray(productImage);
+                product.Image = productImage;
 
                 _pdvDbContext.Entry(product).State = EntityState.Modified;
 

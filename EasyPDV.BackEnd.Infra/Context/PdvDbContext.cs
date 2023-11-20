@@ -1,5 +1,7 @@
 ﻿using EasyPDV.BackEnd.Domain.Entities;
+using EasyPDV.BackEnd.Domain.Entities.Notifications.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using static EasyPDV.BackEnd.Infra.Mappings.Mapper;
 
 namespace EasyPDV.BackEnd.Infra.Context

@@ -17,7 +17,7 @@ namespace EasyPDV.BackEnd.Domain.Dtos
         public int StockQuantity { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
-        public virtual int productQuantity { get; set; }
+        public virtual int ProductQuantity { get; set; }
 
         public ProductDTO() { } 
         public Product Parse(ProductDTO productDTO)

@@ -1,8 +1,9 @@
 ﻿using EasyPDV.BackEnd.Domain.Dtos;
 using EasyPDV.BackEnd.Domain.Entities;
+using EasyPDV.BackEnd.Domain.Interfaces;
 using EasyPDV.BackEnd.Domain.Interfaces.Repositories;
 using EasyPDV.BackEnd.Domain.Interfaces.Services;
-using EasyPDV.BackEnd.Infra.Repositories;
+using Flunt.Notifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyPDV.WebApp.Controllers
@@ -19,6 +20,7 @@ namespace EasyPDV.WebApp.Controllers
         private readonly ISaleService _saleService;
         private readonly IEventService _eventService;
         private readonly IEventRepository _eventRepository;
+        private readonly INotificationContext _notificationContext;
 
         public SaleController(
             ILogger<SaleController> logger,
@@ -27,7 +29,8 @@ namespace EasyPDV.WebApp.Controllers
             IConfiguration configuration,
             ISaleService saleService,
             IEventService eventService,
-            IEventRepository eventRepository
+            IEventRepository eventRepository,
+            INotificationContext notificationContext
             )
         {
             _logger = logger;
@@ -37,13 +40,25 @@ namespace EasyPDV.WebApp.Controllers
             _saleService = saleService;
             _eventService = eventService;
             _eventRepository = eventRepository;
+            _notificationContext = notificationContext;
         }
         [HttpPost("MakeSale")]
         public async Task<IActionResult> PostRegularSale(EventDTO _request)
-            {
+        {
             try
             {
                 var _response = await _eventService.AddSale(_request);
+                var _notifications = new List<string>();
+
+                if (_response is null)
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        errors = _notificationContext.Notifications().Select(x => x.Message).ToList()
+                    });
+                }
+
                 return Ok(new
                 {
                     success = true,
@@ -62,6 +77,15 @@ namespace EasyPDV.WebApp.Controllers
             try
             {
                 var _response = _saleService.PrepareSale(products);
+
+                if (_notificationContext.HasNotifications())
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        errors = _notificationContext.Notifications().Select(x => x.Message).ToList()
+                    });
+                }
                 return Ok(new
                 {
                     success = true,

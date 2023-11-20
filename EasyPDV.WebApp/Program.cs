@@ -1,9 +1,12 @@
+using EasyPDV.BackEnd.Domain.Entities.Notifications;
+using EasyPDV.BackEnd.Domain.Interfaces;
 using EasyPDV.BackEnd.Domain.Interfaces.Repositories;
 using EasyPDV.BackEnd.Domain.Interfaces.Services;
 using EasyPDV.BackEnd.Domain.Services;
 using EasyPDV.BackEnd.Infra.Context;
 using EasyPDV.BackEnd.Infra.Repositories;
 using EasyPDV.WebApp;
+using Flunt.Notifications;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -43,13 +46,14 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("read:messages", policy => policy.Requirements.Add(new
     HasScopeRequirement("read:messages", domain)));
-    
+
 });
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Use the connection string to configure your database context or other services that need it
 
-builder.Services.AddDbContext<PdvDbContext>(options => {
+builder.Services.AddDbContext<PdvDbContext>(options =>
+{
     options.UseSqlServer(connectionString);
 });
 ConfigurationManager configuration = builder.Configuration; // allows both to access and to set up the config
@@ -65,6 +69,7 @@ builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<INotificationContext, NotificationContext>();
 
 var app = builder.Build();
 
@@ -73,7 +78,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json","EasyPDV.Webapp");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EasyPDV.Webapp");
 });
 
 

@@ -1,12 +1,18 @@
 ﻿using EasyPDV.BackEnd.Domain.Dtos;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using System.Collections;
+using EasyPDV.BackEnd.Domain.Entities.Notifications;
+using EasyPDV.BackEnd.Domain.Interfaces;
 
 namespace EasyPDV.BackEnd.Domain.Entities
 {
     public class Product
     {
+        private INotificationContext _notificationContext;
+
+        public Product(
+            INotificationContext notificationContext)
+        {
+            _notificationContext = notificationContext;
+        }
         public Product() { }
         public Product(Guid id, double price, string name, byte[] image, int stockQuantity, string status, string description)
         {
