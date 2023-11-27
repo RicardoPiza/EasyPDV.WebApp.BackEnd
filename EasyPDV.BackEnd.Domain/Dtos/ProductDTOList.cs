@@ -15,6 +15,7 @@ namespace EasyPDV.BackEnd.Domain.Dtos
         public int StockQuantity { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
+        public string OwnerUserEmail { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
         public string OrderByColumn { get; set; }

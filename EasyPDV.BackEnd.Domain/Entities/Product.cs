@@ -6,15 +6,8 @@ namespace EasyPDV.BackEnd.Domain.Entities
 {
     public class Product
     {
-        private INotificationContext _notificationContext;
-
-        public Product(
-            INotificationContext notificationContext)
-        {
-            _notificationContext = notificationContext;
-        }
         public Product() { }
-        public Product(Guid id, double price, string name, byte[] image, int stockQuantity, string status, string description)
+        public Product(Guid id, double price, string name, byte[] image, int stockQuantity, string status, string description, string ownerUserEmail)
         {
             Id = id;
             Price = price;
@@ -23,6 +16,7 @@ namespace EasyPDV.BackEnd.Domain.Entities
             StockQuantity = stockQuantity;
             Status = status;
             Description = description;
+            OwnerUserEmail = ownerUserEmail;
         }
         public ProductDTO Parse(Product productDTO)
         {
@@ -36,6 +30,7 @@ namespace EasyPDV.BackEnd.Domain.Entities
                 StockQuantity = productDTO.StockQuantity,
                 Status = productDTO.Status,
                 Description = productDTO.Description,
+                OwnerUserEmail= productDTO.OwnerUserEmail
             };
         }
         public Guid Id { get; set; }
@@ -44,6 +39,7 @@ namespace EasyPDV.BackEnd.Domain.Entities
         public int StockQuantity { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
+        public string OwnerUserEmail { get; set; }
         public byte[] Image { get; set; }
     }
 }

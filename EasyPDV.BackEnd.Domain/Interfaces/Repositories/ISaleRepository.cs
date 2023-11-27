@@ -1,4 +1,5 @@
-﻿using EasyPDV.BackEnd.Domain.Entities;
+﻿using EasyPDV.BackEnd.Domain.Dtos;
+using EasyPDV.BackEnd.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
     public interface ISaleRepository
     {
         Task<Sale> Create(Sale sale);
+        Task<List<ReportDocumentDTO>> GetReport(EventDTO eventDTO);
     }
 }

@@ -28,7 +28,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             await _saleRepository.Create(sale.Parse(sale));
             return sale.Parse(sale);
         }
-        public async Task<PrepareSaleDTO> PrepareSale(List<ProductDTO> productsToSell)
+        public async Task<PrepareSaleDTO> PrepareSale(List<SoldProductDTO> productsToSell)
         {
             var productsTotal = new PrepareSaleDTO();
             if (productsToSell.Any())
@@ -51,6 +51,11 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
                 _notificationContext.AddNotification("Pagamento", "Escolha um método de pagamento");
             }
             return sale;
+        }
+
+        public async Task<List<ReportDocumentDTO>> GetReport(EventDTO eventDTO)
+        {
+            return await _saleRepository.GetReport(eventDTO);
         }
     }
 }

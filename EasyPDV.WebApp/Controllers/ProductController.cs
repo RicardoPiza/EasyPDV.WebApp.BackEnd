@@ -34,18 +34,18 @@ namespace EasyPDV.WebApp.Controllers
             _notificationContext = notificationContext;
         }
         [HttpPost("Add")]
-        public IActionResult AddProduct(ProductDTO product)
+        public async Task<IActionResult> AddProduct(ProductDTO product)
         {
             try
             {
-                var _response = _productService.Add(product);
+                var _response = await _productService.Add(product);
 
                 if (_response is null)
                 {
                     return Ok(new
                     {
                         success = false,
-                        data = _notificationContext.Notifications().Select(x => x.Message).ToList()
+                        errors = _notificationContext.Notifications().Select(x => x.Message).ToList()
                     });
                 }
                 return Ok(new

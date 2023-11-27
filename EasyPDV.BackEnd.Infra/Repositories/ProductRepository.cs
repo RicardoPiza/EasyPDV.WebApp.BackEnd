@@ -60,7 +60,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             }
             catch (Exception e)
             {
-
                 throw;
             }
         }
@@ -84,7 +83,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
                 _configuration.GetConnectionString("DefaultConnection")))
             {
                 var _query = $@"
-                    select * from products order by name";
+                    select * from products where OwnerUserEmail = '{productDTO.OwnerUserEmail}' order by name";
 
                 result.Products = await conn.QueryAsync<ProductDTO>(_query);
 

@@ -12,7 +12,6 @@ namespace EasyPDV.WebApp.Controllers
     [Route("api/[controller]")]
     public class SaleController : ControllerBase
     {
-
         private readonly ILogger<SaleController> _logger;
         private readonly IProductService _productService;
         private readonly IProductRepository _productRepository;
@@ -71,12 +70,38 @@ namespace EasyPDV.WebApp.Controllers
             }
         }
         [HttpPost("PrepareSale")]
-        public IActionResult PrepareSale(List<ProductDTO> products)
+        public IActionResult PrepareSale(List<SoldProductDTO> products)
         {
 
             try
             {
                 var _response = _saleService.PrepareSale(products);
+
+                if (_notificationContext.HasNotifications())
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        errors = _notificationContext.Notifications().Select(x => x.Message).ToList()
+                    });
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = _response
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("GetReport")]
+        public async Task<IActionResult> GetReport(EventDTO eventDTO)
+        {
+            try
+            {
+                var _response = await _saleService.GetReport(eventDTO);
 
                 if (_notificationContext.HasNotifications())
                 {
