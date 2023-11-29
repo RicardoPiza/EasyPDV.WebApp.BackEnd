@@ -25,7 +25,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 
         public async Task<Sale> Create(Sale sale)
         {
-            
+
             var _sale = await _pdvDbContext.AddAsync(sale);
             _pdvDbContext.SaveChanges();
             _pdvDbContext.ChangeTracker.Clear();
@@ -42,9 +42,9 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
                                     SP.Name ProductName,
                                     CAST(sp.Price AS DECIMAL(7,2)) as Price,
                                     sum(SP.ProductQuantity) as QuantitySold,
-                                    CAST(sum(S.SalePrice)  AS DECIMAL(7,2))  as SaleTotal,
+                                    CAST(SP.Price * sum(SP.ProductQuantity) AS DECIMAL(7,2))  as SaleTotal,
                                     Ev.Balance as InitialValue,
-                                    CAST(sum(S.SalePrice)AS DECIMAL(7,2)) as TotalWithInitialValue
+                                    CAST(Ev.Balance + (SP.Price * sum(SP.ProductQuantity)) AS DECIMAL(7,2)) as TotalWithInitialValue
                                 from Events EV
                                     left join Sales S on EV.Id = S.EventId
                                     left join SoldProducts SP on S.Id = SP.SaleId
@@ -57,7 +57,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
                                 ";
                 _result.AddRange(await conn.QueryAsync<ReportDocumentDTO>(_query));
 
-                var _queryTotal = $@"select count(1) from produtos";
             }
             return _result.ToList();
         }

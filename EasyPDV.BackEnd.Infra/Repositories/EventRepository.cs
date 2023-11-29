@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EasyPDV.BackEnd.Domain.Dtos;
 using EasyPDV.BackEnd.Domain.Entities;
 using EasyPDV.BackEnd.Domain.Enums;
 using EasyPDV.BackEnd.Domain.Interfaces.Repositories;
@@ -152,6 +153,35 @@ namespace EasyPDV.BackEnd.Infra.Repositories
                 });
             }
             return _result;
+        }
+
+        public async Task<List<EventReportDTO>> GetEventReport(EventDTO eventDTO)
+        {
+            var _result = new List<EventReportDTO>();
+            using (SqlConnection conn = new(
+                _configuration.GetConnectionString("DefaultConnection")))
+            {
+                var _query = $@"select 
+                                    Ev.Id,
+                                    EV.Name,
+                                    EV.Balance AS InitialBalance,
+                                    EV.Date Created,
+                                    Ev.Duration,
+                                    sum(SA.SalePrice) TotalProfit
+                                from Events EV 
+                                left outer join Sales SA on EV.Id = SA.EventId
+                                where EV.Responsible = '{eventDTO.Responsible}'
+                                group by
+                                    EV.Duration,
+                                    Ev.id,
+                                    EV.Name,
+                                    EV.Balance,
+                                    EV.Date
+                                ";
+                _result.AddRange(await conn.QueryAsync<EventReportDTO>(_query));
+
+            }
+            return _result.ToList();
         }
     }
 }

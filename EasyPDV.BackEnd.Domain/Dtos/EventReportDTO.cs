@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Dtos
 {
-    public class ReportDocumentDTO
+    public class EventReportDTO
     {
-        public string ProductName { get; set; }
-        public decimal Price { get; set; }
-        public string QuantitySold { get; set; }
-        public decimal SaleTotal { get; set; }
-        public decimal InitialValue { get; set; }
-        public decimal TotalWithInitialValue { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public decimal InitialBalance { get; set; }
+        public DateTime Created { get; set; }
+        public int Duration { get; set; }
+        public decimal TotalProfit { get; set; }
         public virtual string BarColor
         {
             get

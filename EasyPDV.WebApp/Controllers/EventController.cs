@@ -88,5 +88,22 @@ namespace EasyPDV.WebApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("GetEventReport")]
+        public async Task<IActionResult> GetEventReport(EventDTO eventDTO)
+        {
+            try
+            {
+                var _response = await _eventService.GetEventReport(eventDTO);
+                return Ok(new
+                {
+                    success = true,
+                    data = _response
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
