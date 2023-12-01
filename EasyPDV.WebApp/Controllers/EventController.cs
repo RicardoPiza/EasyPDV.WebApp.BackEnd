@@ -59,7 +59,7 @@ namespace EasyPDV.WebApp.Controllers
         {
             try
             {
-                var _response = _eventService.GetEvent(responsible);
+                var _response = await _eventService.GetEvent(responsible);
                 return Ok(new
                 {
                     success = true,
@@ -88,12 +88,12 @@ namespace EasyPDV.WebApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("GetEventReport")]
-        public async Task<IActionResult> GetEventReport(EventDTO eventDTO)
+        [HttpGet("GetEventReport/{responsible}")]
+        public async Task<IActionResult> GetEventReport(string responsible)
         {
             try
             {
-                var _response = await _eventService.GetEventReport(eventDTO);
+                var _response = await _eventService.GetEventReport(responsible);
                 return Ok(new
                 {
                     success = true,

@@ -13,6 +13,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
         Task<Sale> PostSale(SaleDTO sale);
         Task<PrepareSaleDTO> PrepareSale(List<SoldProductDTO> sale);
         Task<SaleDTO> Validate(SaleDTO sale);
-        Task<List<ReportDocumentDTO>> GetReport(EventDTO eventDTO);
+        Task<List<ReportDocumentDTO>> GetReport(string responsible, Guid id);
     }
 }

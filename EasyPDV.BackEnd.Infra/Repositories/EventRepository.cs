@@ -155,7 +155,7 @@ namespace EasyPDV.BackEnd.Infra.Repositories
             return _result;
         }
 
-        public async Task<List<EventReportDTO>> GetEventReport(EventDTO eventDTO)
+        public async Task<List<EventReportDTO>> GetEventReport(string responsible)
         {
             var _result = new List<EventReportDTO>();
             using (SqlConnection conn = new(
@@ -170,7 +170,10 @@ namespace EasyPDV.BackEnd.Infra.Repositories
                                     sum(SA.SalePrice) TotalProfit
                                 from Events EV 
                                 left outer join Sales SA on EV.Id = SA.EventId
-                                where EV.Responsible = '{eventDTO.Responsible}'
+                                where
+                                1 = 1 
+                                {(string.IsNullOrEmpty(responsible) ? string.Empty : $"and EV.Responsible = '{responsible}'")}
+
                                 group by
                                     EV.Duration,
                                     Ev.id,
