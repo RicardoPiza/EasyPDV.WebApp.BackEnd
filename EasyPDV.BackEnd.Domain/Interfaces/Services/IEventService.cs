@@ -16,6 +16,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Services
         public Task<EventDTO> StartEvent(EventDTO eventDTO);
         public Task<EventDTO> StopEvent(EventDTO eventDTO);
         public Task<EventCloseResult> GetEventResult(Guid id);
-        public Task<List<EventReportDTO>> GetEventReport(EventDTO eventDTO);
+        public Task<List<EventReportDTO>> GetEventReport(string responsible);
     }
 }

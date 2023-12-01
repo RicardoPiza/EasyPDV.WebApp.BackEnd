@@ -70,12 +70,12 @@ namespace EasyPDV.WebApp.Controllers
             }
         }
         [HttpPost("PrepareSale")]
-        public IActionResult PrepareSale(List<SoldProductDTO> products)
+        public async Task<IActionResult> PrepareSale(List<SoldProductDTO> products)
         {
 
             try
             {
-                var _response = _saleService.PrepareSale(products);
+                var _response = await _saleService.PrepareSale(products);
 
                 if (_notificationContext.HasNotifications())
                 {
@@ -96,12 +96,12 @@ namespace EasyPDV.WebApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("GetReport")]
-        public async Task<IActionResult> GetReport(EventDTO eventDTO)
+        [HttpGet("GetReport/{responsible}/{id}")]
+        public async Task<IActionResult> GetReport(string responsible, Guid id)
         {
             try
             {
-                var _response = await _saleService.GetReport(eventDTO);
+                var _response = await _saleService.GetReport(responsible, id);
 
                 if (_notificationContext.HasNotifications())
                 {

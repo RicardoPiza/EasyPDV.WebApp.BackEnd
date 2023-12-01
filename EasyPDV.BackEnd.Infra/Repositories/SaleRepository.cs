@@ -32,7 +32,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             return sale;
         }
 
-        public async Task<List<ReportDocumentDTO>> GetReport(EventDTO eventDTO)
+        public async Task<List<ReportDocumentDTO>> GetReport(string responsible, Guid id)
         {
             var _result = new List<ReportDocumentDTO>();
             using (SqlConnection conn = new(
@@ -48,7 +48,10 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
                                 from Events EV
                                     left join Sales S on EV.Id = S.EventId
                                     left join SoldProducts SP on S.Id = SP.SaleId
-                                where Ev.Responsible = '{eventDTO.Responsible}'
+                                where 
+                                1 = 1
+                                {(string.IsNullOrEmpty(responsible) ? string.Empty : $"and Ev.Responsible = '{responsible}'")}
+                                {(id == Guid.Empty ? string.Empty : $"and EV.Id = '{id}'")}
                                 and SP.Name is not null
                                 group by 
                                     Sp.Name,

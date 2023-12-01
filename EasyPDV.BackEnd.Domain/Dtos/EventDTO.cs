@@ -11,7 +11,7 @@ namespace EasyPDV.BackEnd.Domain.Dtos
     public class EventDTO
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } 
         public string Responsible { get; set; }
         public ECashierStatus CashierStatus { get; set; }
         public Decimal Balance { get; set; }

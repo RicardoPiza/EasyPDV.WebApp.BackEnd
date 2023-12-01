@@ -11,6 +11,6 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
     public interface ISaleRepository
     {
         Task<Sale> Create(Sale sale);
-        Task<List<ReportDocumentDTO>> GetReport(EventDTO eventDTO);
+        Task<List<ReportDocumentDTO>> GetReport(string responsible, Guid id);
     }
 }

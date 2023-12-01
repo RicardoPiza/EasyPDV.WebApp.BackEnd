@@ -66,9 +66,9 @@ namespace EasyPDV.BackEnd.Domain.Services
         {
             return await _eventRepository.GetEventResult(id);
         }
-        public async Task<List<EventReportDTO>> GetEventReport(EventDTO eventDTO)
+        public async Task<List<EventReportDTO>> GetEventReport(string responsible)
         {
-            return await _eventRepository.GetEventReport(eventDTO);
+            return await _eventRepository.GetEventReport(responsible);
         }
     }
 }
