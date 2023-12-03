@@ -105,5 +105,31 @@ namespace EasyPDV.WebApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("SendDuration")]
+        public async Task<IActionResult> SendDuration(EventDTO eventDTO)
+        {
+            try
+            {
+                var _response = await _eventService.SendDuration(eventDTO);
+
+                if(_response is null)
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        data = "Erro ao resuperar a duração"
+                    });
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = _response
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -49,11 +49,9 @@ namespace EasyPDV.BackEnd.Infra.Repositories
                 var _result = _context.Events.Update(eventEntity);
                 await _context.SaveChangesAsync();
                 return _result.Entity;
-                _context.ChangeTracker.Clear();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return null;
                 throw;
             }
         }
@@ -111,9 +109,8 @@ namespace EasyPDV.BackEnd.Infra.Repositories
                 await _context.SaveChangesAsync();
                 return sale;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
                 throw;
             }
         }
@@ -185,6 +182,23 @@ namespace EasyPDV.BackEnd.Infra.Repositories
 
             }
             return _result.ToList();
+        }
+        public async Task<string> SendDuration(EventDTO eventDTO)
+        {
+            string _result;
+            using (SqlConnection conn = new(
+                _configuration.GetConnectionString("DefaultConnection")))
+            {
+                var _query = $@"update Events set duration = '{eventDTO.Duration}'
+                                where Id = '{eventDTO.Id}'
+                                ";
+                await conn.ExecuteScalarAsync<EventDTO>(_query);
+
+                _result = await conn.QueryFirstOrDefaultAsync<string>($@"select Duration from Events where id = '{eventDTO.Id}'");
+                
+
+            }
+            return _result;
         }
     }
 }

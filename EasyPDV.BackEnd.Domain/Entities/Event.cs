@@ -25,7 +25,7 @@ namespace EasyPDV.BackEnd.Domain.Entities
         public Decimal Balance { get; set; }
         public List<Sale> Sales { get; set; } = new List<Sale>();
         public DateTime Date { get; set; }
-        public double Duration { get; set; }
+        public string Duration { get; set; }
 
         public EventDTO Parse(Event eventDTO)
         {
