@@ -12,7 +12,7 @@ namespace EasyPDV.BackEnd.Domain.Dtos
         public string Name { get; set; }
         public decimal InitialBalance { get; set; }
         public DateTime Created { get; set; }
-        public int Duration { get; set; }
+        public string Duration { get; set; }
         public decimal TotalProfit { get; set; }
         public virtual string BarColor
         {

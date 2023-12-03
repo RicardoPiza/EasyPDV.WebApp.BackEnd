@@ -18,6 +18,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
         public Task<Event> GetById(Guid Id);
         public Task<EventCloseResult> GetEventResult(Guid id);
         public Task<List<EventReportDTO>> GetEventReport(string responsible);
+        public Task<string> SendDuration(EventDTO eventDTO);
 
 
     }
