@@ -11,14 +11,15 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 {
     public interface IEventRepository
     {
-        public Task<Event> AddSale(Event Event);
-        public Task<Event> Get(string responsible);
-        public Task<Event> StartEvent(Event Event);
-        public Task<Event> StopEvent(Event Event);
-        public Task<Event> GetById(Guid Id);
-        public Task<EventCloseResult> GetEventResult(Guid id);
-        public Task<List<EventReportDTO>> GetEventReport(string responsible);
-        public Task<string> SendDuration(EventDTO eventDTO);
+        Task<Event> AddSale(Event Event);
+        Task<Event> Get(string responsible);
+        Task<Event> StartEvent(Event Event);
+        Task<Event> StopEvent(Event Event);
+        Task<Event> GetById(Guid Id);
+        Task<EventCloseResult> GetEventResult(Guid id);
+        Task<List<EventReportDTO>> GetEventReport(string responsible);
+        Task<string> SendDuration(EventDTO eventDTO);
+        Task<Event> Get(Guid eventId);
 
 
     }

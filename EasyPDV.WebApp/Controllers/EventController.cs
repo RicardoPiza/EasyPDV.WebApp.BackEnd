@@ -1,5 +1,7 @@
 ﻿using EasyPDV.BackEnd.Domain.Dtos;
 using EasyPDV.BackEnd.Domain.Entities;
+using EasyPDV.BackEnd.Domain.Entities.Notifications;
+using EasyPDV.BackEnd.Domain.Interfaces;
 using EasyPDV.BackEnd.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +14,15 @@ namespace EasyPDV.WebApp.Controllers
     public class EventController : Controller
     {
         private IEventService _eventService;
+        private INotificationContext _notificationContext;
 
         public EventController(
-            IEventService eventService
+            IEventService eventService,
+            INotificationContext notificationContext
             )
         {
             _eventService = eventService;
+            _notificationContext = notificationContext;
         }
 
         [HttpPost("StartEvent")]
@@ -60,6 +65,23 @@ namespace EasyPDV.WebApp.Controllers
             try
             {
                 var _response = await _eventService.GetEvent(responsible);
+                return Ok(new
+                {
+                    success = true,
+                    data = _response
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("Get/{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            try
+            {
+                var _response = await _eventService.Get(id);
                 return Ok(new
                 {
                     success = true,

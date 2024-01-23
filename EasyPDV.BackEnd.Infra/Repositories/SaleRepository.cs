@@ -7,6 +7,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 {
@@ -32,9 +33,9 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             return sale;
         }
 
-        public async Task<List<ReportDocumentDTO>> GetReport(string responsible, Guid id)
+        public async Task<List<EventReportDocumentDTO>> GetSoldProductsReport(string responsible, Guid id)
         {
-            var _result = new List<ReportDocumentDTO>();
+            var _result = new List<EventReportDocumentDTO>();
             using (SqlConnection conn = new(
                 _configuration.GetConnectionString("DefaultConnection")))
             {
@@ -58,10 +59,40 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
                                     sp.price,
                                     Ev.Balance
                                 ";
-                _result.AddRange(await conn.QueryAsync<ReportDocumentDTO>(_query));
+                _result.AddRange(await conn.QueryAsync<EventReportDocumentDTO>(_query));
 
             }
             return _result.ToList();
+        }
+        public async Task<List<SaleReportDocumentDTO>> GetSalesReport(string responsible, Guid id)
+        {
+            var _result = new List<SaleReportDocumentDTO>();
+            using (SqlConnection conn = new(
+                _configuration.GetConnectionString("DefaultConnection")))
+            {
+                var _query = @$"select 
+                                SP.Name ProductName,
+                                cast(SP.Price AS decimal(7,2))ProductPrice,
+                                S.PaymentMethod PaymentMethod,
+                                CONVERT(VARCHAR, S.SaleDate, 103) SaleDate,
+                                CONVERT(VARCHAR, S.SaleDate, 108) SaleTime,
+                                Ev.Name EventName,
+                                Ev.Responsible Responsible,
+                                S.Id SaleId
+                                from sales S
+
+                                left join SoldProducts SP on S.Id = SP.SaleId
+                                left join Events EV on EV.id = S.EventId
+
+                            where
+	                            1 = 1 
+	                            and	Ev.CashierStatus = 0
+                                {(string.IsNullOrEmpty(responsible) ? string.Empty : $"and Ev.Responsible = '{responsible}'")}
+                                {(id == Guid.Empty ? string.Empty : $"and EV.Id = '{id}'")} ";
+
+                _result.AddRange(await conn.QueryAsync<SaleReportDocumentDTO>(_query));
+            }
+                return _result;
         }
     }
 }

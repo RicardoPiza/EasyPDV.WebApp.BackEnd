@@ -96,12 +96,38 @@ namespace EasyPDV.WebApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("GetReport/{responsible}/{id}")]
-        public async Task<IActionResult> GetReport(string responsible, Guid id)
+        [HttpGet("GetSoldProductsReport/{responsible}/{id}")]
+        public async Task<IActionResult> GetSoldProductsReport(string responsible, Guid id)
         {
             try
             {
-                var _response = await _saleService.GetReport(responsible, id);
+                var _response = await _saleService.GetSoldProductsReport(responsible, id);
+
+                if (_notificationContext.HasNotifications())
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        errors = _notificationContext.Notifications().Select(x => x.Message).ToList()
+                    });
+                }
+                return Ok(new
+                {
+                    success = true,
+                    data = _response
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetSalesReport/{responsible}/{id}")]
+        public async Task<IActionResult> GetSalesReport(string responsible, Guid id)
+        {
+            try
+            {
+                var _response = await _saleService.GetSalesReport(responsible, id);
 
                 if (_notificationContext.HasNotifications())
                 {
