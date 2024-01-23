@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyPDV.BackEnd.Domain.Dtos
 {
-    public class ReportDocumentDTO
+    public class EventReportDocumentDTO
     {
         public string ProductName { get; set; }
         public decimal Price { get; set; }

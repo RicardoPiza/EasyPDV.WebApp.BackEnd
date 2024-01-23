@@ -11,12 +11,13 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Services
 {
     public interface IEventService
     {
-        public Task<EventDTO> AddSale(EventDTO eventDTO);
-        public Task<EventDTO> GetEvent(string responsible);
-        public Task<EventDTO> StartEvent(EventDTO eventDTO);
-        public Task<EventDTO> StopEvent(EventDTO eventDTO);
-        public Task<EventCloseResult> GetEventResult(Guid id);
-        public Task<List<EventReportDTO>> GetEventReport(string responsible);
-        public Task<string> SendDuration(EventDTO eventDTO);
+        Task<EventDTO> AddSale(EventDTO eventDTO);
+        Task<EventDTO> GetEvent(string responsible);
+        Task<EventDTO> StartEvent(EventDTO eventDTO);
+        Task<EventDTO> StopEvent(EventDTO eventDTO);
+        Task<EventCloseResult> GetEventResult(Guid id);
+        Task<List<EventReportDTO>> GetEventReport(string responsible);
+        Task<string> SendDuration(EventDTO eventDTO);
+        Task<EventDTO> Get(Guid id);
     }
 }

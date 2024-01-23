@@ -53,9 +53,19 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             return sale;
         }
 
-        public async Task<List<ReportDocumentDTO>> GetReport(string responsible, Guid id)
+        public async Task<List<EventReportDocumentDTO>> GetSoldProductsReport(string responsible, Guid id)
         {
-            return await _saleRepository.GetReport(responsible, id);
+            return await _saleRepository.GetSoldProductsReport(responsible, id);
+        }
+
+        public async Task<List<List<SaleReportDocumentDTO>>> GetSalesReport(string responsible, Guid id)
+        {
+            var _result = await _saleRepository.GetSalesReport(responsible, id);
+
+            var _group = _result.GroupBy(x => x.SaleId).Select(grp => grp.ToList()).ToList();
+
+            return _group;
+
         }
     }
 }

@@ -87,14 +87,14 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
 
                 result.Products = await conn.QueryAsync<ProductDTO>(_query);
 
-                
+
                 var _queryTotal = $@"select count(1) from produtos";
             }
             return result;
         }
 
         public async Task<ImageSaveResult> SaveImage(byte[] productImage, Guid id)
-            {
+        {
             var product = await _pdvDbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
 
             if (product != null)
@@ -118,7 +118,7 @@ namespace EasyPDV.BackEnd.Domain.Interfaces.Repositories
             else
             {
                 Console.WriteLine($"Product with ID {id} not found.");
-                return null; 
+                return null;
             }
         }
     }

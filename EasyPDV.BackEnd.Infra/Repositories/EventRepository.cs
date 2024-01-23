@@ -79,7 +79,13 @@ namespace EasyPDV.BackEnd.Infra.Repositories
                 {
                     return new Event()
                     {
+                        Balance = 0,
                         CashierStatus = ECashierStatus.Closed,
+                        Date = DateTime.UtcNow,
+                        Duration = "00:00:00",
+                        Name = "",
+                        Responsible = responsible,
+                        Sales = new List<Sale>()
                     };
                 }
 
@@ -87,8 +93,14 @@ namespace EasyPDV.BackEnd.Infra.Repositories
 
             else
             {
-                return new Event(){
+                return new Event() {
+                    Balance = 0,
                     CashierStatus = ECashierStatus.Closed,
+                    Date = DateTime.UtcNow,
+                    Duration = "00:00:00",
+                    Name = "",
+                    Responsible = responsible,
+                    Sales = new List<Sale>()
                 };
             }
         }
@@ -199,6 +211,13 @@ namespace EasyPDV.BackEnd.Infra.Repositories
 
             }
             return _result;
+        }
+        public async Task<Event> Get(Guid eventId)
+        {
+            return await _context.Events
+                .Include(x => x.Sales)
+                .ThenInclude(x => x.SoldProducts)
+                .FirstOrDefaultAsync(x => x.Id == eventId);
         }
     }
 }
